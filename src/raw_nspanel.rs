@@ -1,5 +1,6 @@
 use cocoa::{
     appkit::NSWindowCollectionBehavior,
+    foundation::NSRect,
     base::{id, nil, BOOL, NO, YES},
 };
 use objc::{
@@ -137,6 +138,10 @@ impl RawNSPanel {
 
     pub fn handle(&mut self) -> ShareId<Self> {
         unsafe { ShareId::from_ptr(self as *mut Self) }
+    }
+
+    pub fn set_frame(&self, rect: NSRect, display: bool, animate: bool) {
+        let _: () = unsafe { msg_send![self, setFrame: rect display: if display {YES} else {NO} animate: if animate {YES} else {NO}] };
     }
 
     /// Create an NSPanel from a Tauri window
